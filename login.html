@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+  
+      #container {
+        width: 300px;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+  
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+  
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+  
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+  
+      button:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+</html>
+<body>
+    <div id="container">
+      <h1>login Page</h1>
+      <input type="text" id="email" placeholder="enter email" />
+      <input type="text" id="password" placeholder="enter password" />
+      <button onclick="onLogin()">Login</button>
+    </div>
+  </body>
+</html>
+<script>
+  const onLogin = () => {
+    const payload = {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+    };
+    fetch("http://localhost:9090/users/login", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("token", res.token);
+        if(res.msg=="Login Succsess"){
+          alert("Login Sucessfull")
+          window.location.href ="index.html"
+        }
+      
+      })
+      .catch((err) => console.log(err));
+
+  };
+</script>
